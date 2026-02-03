@@ -32,6 +32,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 cmake_minimum_required(VERSION 3.22.1)
 project(glslang)
+# Force SPIR-V optimizer off
+set(ENABLE_OPT OFF CACHE BOOL "Disable SPIRV-Tools optimization")
 
 set(GLSLANG_TESTS_DEFAULT ON) # Can be turned off, below, based on environment.
 set(GLSLANG_ENABLE_INSTALL_DEFAULT ON) # Can be turned off, below, based on environment.
