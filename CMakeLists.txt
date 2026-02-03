@@ -281,16 +281,21 @@ endif()
 
 option(ALLOW_EXTERNAL_SPIRV_TOOLS "Allows to build against installed SPIRV-Tools-opt. This is unsupported if the commit isn't the one in known_good.json")
 if(NOT TARGET SPIRV-Tools-opt)
+    # Enable using the submodule
+    set(ALLOW_EXTERNAL_SPIRV_TOOLS ON CACHE BOOL "Use spirv-tools submodule")
+    set(SPIRV-Tools-opt_DIR "C:/Users/kalle/Downloads/Azahar/externals/spirv-tools/cmake" CACHE PATH "Path to spirv-tools cmake dir")
+
     if(ALLOW_EXTERNAL_SPIRV_TOOLS)
-        # Look for external SPIR-V Tools build, if not building in-tree
         message(STATUS "Trying to find local SPIR-V tools")
         find_package(SPIRV-Tools-opt)
+
         if(NOT TARGET SPIRV-Tools-opt)
             if(ENABLE_OPT)
                 message(SEND_ERROR "ENABLE_OPT set but SPIR-V tools not found! Disabling SPIR-V optimization.")
             endif()
-            set(ENABLE_OPT OFF)
+            set(ENABLE_OPT OFF CACHE BOOL "Disable SPIRV-Tools optimization")
         endif()
+
     else()
         if(ENABLE_OPT)
             message(SEND_ERROR "ENABLE_OPT set but SPIR-V tools not found. Please run update_glslang_sources.py, "
